@@ -15,14 +15,14 @@ public class BirdManager : MonoBehaviour
         // You'll only need to fix the for loop () statement itself (line 16).
         // Feature 4 should work after you fix this and add birds to your game.
 
-        //for (int i = 1; i < 2; i++)
-        //{
-        //    Bird bird = _birds[i];
-        //    if (Vector3.Distance(bird.transform.position, _player.position) <= _interactDistance)
-        //    {
-        //        bird.RunAway(_player.position);
-        //    }
-        //}
+        for (int i = 0; i < _birds.Length; i++)
+        {
+            Bird bird = _birds[i];
+            if (Vector3.Distance(bird.transform.position, _player.position) <= _interactDistance)
+            {
+               bird.RunAway(_player.position);
+            }
+        }
         // STEP 7 -------------------------------------------------------------
     }
 }

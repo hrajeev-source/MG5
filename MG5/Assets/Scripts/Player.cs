@@ -15,19 +15,13 @@ public class Player : MonoBehaviour
     // Add a MEMBER VARIABLE here for the NavMeshAgent Component named _agent.
     // It does NOT need to be tunable in the Inspector.
 
-    // ??? _agent
+    [SerializeField] private NavMeshAgent _agent;
 
     // STEP 1 -----------------------------------------------------------------
 
 
     // STEP 4 -----------------------------------------------------------------
-    // Next, we are going to add a teleport ability to the player. 
-    // If the player clicks the SPACE bar, they should teleport back to the
-    //      location they were at before they clicked.
-    //
-    // We need a Vector3 to keep track of their LAST KNOWN LOCATION.
-    // Add a MEMBER VARIABLE here for that location.
-    // It does NOT need to be tunable in the Inspector.
+    private Vector3 _lastKnownLocation;
     
 
     // STEP 4 -----------------------------------------------------------------
@@ -47,12 +41,13 @@ public class Player : MonoBehaviour
     //      to use GetComponent to grab this GameObject's NavMeshAgent and store
     //      it in the _agent MEMBER VARIABLE.
     //
-    //private void ????()
-    //{
-    //
-    //    _mainCamera = Camera.main;
-    //    _animator = GetComponent<Animator>();
-    //}
+    private void Start()
+    {
+    
+     _mainCamera = Camera.main;
+     _animator = GetComponent<Animator>();
+     _agent = GetComponent<NavMeshAgent>();
+    }
     // STEP 2 -----------------------------------------------------------------
 
     // ------------------------------------------------------------------------
@@ -68,25 +63,17 @@ public class Player : MonoBehaviour
                 Vector3 mouseHitPosition = _raycastHit.point;
 
                 // STEP 3 -----------------------------------------------------
-                // Inside this Update method, I've already written code for you
-                //      that finds the location in the game world where the
-                //      player clicked.
-                // This location is stored in mouseHitPosition.
-                // Make the NavMeshAgent move to this position.
-                //
-                // Feature 2 should work after this step.
+                 _lastKnownLocation = transform.position;
+                _agent.SetDestination(mouseHitPosition);
+                
+                    
+
 
 
                 // STEP 3 -----------------------------------------------------
 
                 // STEP 5 -----------------------------------------------------
-                // Because this is where our code tells the NavMeshAgent to
-                //      walk somewhere new, we should also store our CURRENT
-                //      POSITION in our LAST KNOWN LOCATION MEMBER VARIABLE
-                //      here.
-                // 
-                // You'll need this GameObject's Transform's position.
-                // See an example in the documentation: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Transform-position.html
+               
 
 
                 // STEP 5 -----------------------------------------------------
@@ -94,22 +81,16 @@ public class Player : MonoBehaviour
         }
 
         // STEP 6 -------------------------------------------------------------
-        // Finally, we want to TELEPORT the player to the LAST KNOWN LOCATION
-        //      if the player presses the space key.
-        // First, detect IF the player PRESSED the SPACE KEY.
-        //      If they did, you'll need to call a new METHOD on their 
-        //      NAV MESH AGENT Component.
-        // I have not told you about this method >:)
-        // It's NOT "Move".
-        // You'll need to read the NavMeshAgent documentation and choose
-        //      the correct one: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/AI.NavMeshAgent.html
-        // Feature 3 should work after this.
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _agent.Warp(_lastKnownLocation);
+        }
 
 
         // STEP 6 -------------------------------------------------------------
 
         // Uncomment the below line to fix the Pudu's animation if you want.
-        //_animator.SetBool("isMoving", _agent.velocity.magnitude > 0.0f);
+        _animator.SetBool("isMoving", _agent.velocity.magnitude > 0.0f);
     }
     
     // ------------------------------------------------------------------------
