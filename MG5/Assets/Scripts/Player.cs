@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
                 Vector3 mouseHitPosition = _raycastHit.point;
 
                 // STEP 3 -----------------------------------------------------
-                 _lastKnownLocation = transform.position;
+                _lastKnownLocation = transform.position;
                 _agent.SetDestination(mouseHitPosition);
                 
                     
